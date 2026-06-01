@@ -9,14 +9,19 @@ pipeline {
 
         stage('Pull Code') {
             steps {
-                git 'https://github.com/sindhuja-honey/devops-prt-project.git'
+                echo 'Code already checked out by Jenkins SCM'
             }
         }
 
         stage('Unit Test') {
             steps {
                 sh '''
-                test -f index.html
+                if [ -f index.html ]; then
+                    echo "index.html found"
+                else
+                    echo "index.html not found"
+                    exit 1
+                fi
                 '''
             }
         }
@@ -44,6 +49,16 @@ pipeline {
                     '''
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline failed. Check console output.'
         }
     }
 }
