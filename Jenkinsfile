@@ -1,23 +1,29 @@
 pipeline {
+
     agent any
 
     stages {
-        stage('Build') {
+
+        stage('Clone Repository') {
+
             steps {
-                echo 'Building Project'
+
+                checkout scm
+
             }
+
         }
 
-        stage('Test') {
+        stage('Build Docker Image') {
+
             steps {
-                echo 'Testing Project'
+
+                sh 'docker build -t prt-image .'
+
             }
+
         }
 
-        stage('Deploy') {
-            steps {
-                echo 'Deploying Project'
-            }
-        }
     }
+
 }
