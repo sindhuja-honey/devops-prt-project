@@ -1,17 +1,20 @@
 pipeline {
+pipeline {
     agent any
 
     stages {
-        stage('Build') {
+
+        stage('Checkout') {
             steps {
-                echo 'Building Application'
+                checkout scm
             }
         }
 
-        stage('Deploy') {
+        stage('Build Docker Image') {
             steps {
-                echo 'Deploying Application'
+                sh 'docker build -t devops-prt-image .'
             }
         }
+
     }
 }
